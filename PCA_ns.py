@@ -26,13 +26,12 @@ class fcn(nn.Module):
         x = self.layer3(x)
         return x
 parser = argparse.ArgumentParser()
-# parser.add_argument('--modes', type=int, default=12, help='')
 parser.add_argument('--width', type=int, default=32)
 parser.add_argument('--M',  type=int, default=2500, help="number of dataset")
 parser.add_argument('--device', type=int)
 parser.add_argument('--dim_PCA', type=int, default=100)
 cfg = parser.parse_args()
-# print(cfg)
+
 print('N training: ', cfg.M, ' N testing: ', cfg.M, ' width: ', cfg.width, ' dim_PCA: ', cfg.dim_PCA)
 
 # load data
@@ -91,11 +90,6 @@ ep_predict = 10
 step_size = 500
 gamma = 0.5
 
-# X_coeff = np.random.uniform(0, 2*np.pi, (n_train, dim_PCA))
-# Y_coeff = np.random.uniform(0, 2*np.pi, (n_train, dim_PCA))
-# X_coeff_test = np.random.uniform(0, 2*np.pi, (n_train, dim_PCA))
-# Y_coeff_test = np.random.uniform(0, 2*np.pi, (n_train, dim_PCA))
-
 train_i = torch.from_numpy(X_coeff).to(torch.float32)
 train_o = torch.from_numpy(Y_coeff).to(torch.float32)
 test_i = torch.from_numpy(X_coeff_test).to(torch.float32)
@@ -104,7 +98,6 @@ test_o = torch.from_numpy(Y_coeff_test).to(torch.float32)
 # cp to device
 Y_PCs_small = torch.from_numpy(Y_PCs_small.copy()).to(device).to(torch.float32)
 Y_test_flat = torch.from_numpy(Y_test_flat.copy()).to(device).to(torch.float32)
-# norms = torch.from_numpy(norms).to(device).to(torch.float32)
 
 device = torch.device('cuda:' + str(device))
 train_loader = torch.utils.data.DataLoader(torch.utils.data.TensorDataset(train_i, train_o), batch_size=batch_size, shuffle=True)
